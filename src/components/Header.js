@@ -26,7 +26,7 @@ const Header = (props) => {
 
     return (
         <HeaderWrapper>
-            <Title>Tuwu-List</Title>
+            <Title>Todo-List</Title>
             {getButtons()}
         </HeaderWrapper>
     )
