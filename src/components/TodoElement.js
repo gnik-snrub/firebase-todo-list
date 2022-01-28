@@ -18,7 +18,7 @@ const TodoElement = (props) => {
         const getColor = (num) => {
             switch (num) {
                 case 0:
-                    return 'rgba(113, 255, 82, 1)'
+                    return 'rgba(229, 240, 16, 1)'
                 case 1:
                     return 'rgba(222, 122, 0, 1)'
                 default:
@@ -93,6 +93,7 @@ const TodoPriority = styled(GenericButton)`
     background-color: ${props => props.bg};
     &:hover {
         transform: rotate(90deg);
+        border: 1px solid #9BF3F0;
     }
 `
 
