@@ -76,15 +76,14 @@ const AuthButton = (props) => {
 }
 
 const HeaderButton = styled.button`
-    border: 1px solid transparent;
-    background-color: #473198;
+    border: 1px solid #23395B;
+    background-color: inherit;
+    color: #AF3B6E;
     transition: 0.2s;
-    border: 1px solid transparent;
-    color: #9BF3F0;
     &:hover {
-        border: 1px solid #9BF3F0;
-        color: #473198;
-        background-color: #9BF3F0;
+        background-color: #E3BAC6;
+        border: 1px solid #AF3B6E;
+        border-radius: 15px;
     }
 `
 

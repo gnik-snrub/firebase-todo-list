@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import GenericButton from './GenericButton'
+import { GenericContentAreaButton } from './GenericButton'
 
 const TodoElement = (props) => {
     const {todo, edit, remove, id} = props
@@ -76,34 +76,46 @@ const TodoElementStyled = styled.section`
 const TodoText = styled.input`
     height: 20px;
     width: 80%;
-    color: #9BF3F0;
+    color: #363D59;
     border: 0;
-    border-bottom: 1px solid #9BF3F0;
+    border-bottom: 1px solid #23395B;
     background-color: inherit;
     outline: none;
     padding-bottom: 1px;
     margin-right: 2px;
     &:focus {
-        border-bottom: 2px solid #ADFC92;
+        border-bottom: 2px solid #AF3B6E;
         padding-bottom: 0px;
     }
 `
 
-const TodoPriority = styled(GenericButton)`
+const TodoPriority = styled(GenericContentAreaButton)`
     background-color: ${props => props.bg};
     &:hover {
-        transform: rotate(90deg);
-        border: 1px solid #9BF3F0;
+        transform: rotate(45deg);
+        border-radius: 15px;
+        border: 1px solid #AF3B6E;
     }
 `
 
-const TodoComplete = styled(GenericButton)`
+const TodoComplete = styled(GenericContentAreaButton)`
+    &:hover {
+        background-color: #E3BAC6;
+    }
     ${props => props.status && css`
-        background-color: #9BF3F0;
-        color: #4A0D67;
+        background-color: #E3BAC6;
+        color: #363D59;
+        &:hover{
+            color: #AF3B6E;
+            background-color: #fde8e9;
+        }
     `}
 `
 
-const TodoRemove = styled(GenericButton)``
+const TodoRemove = styled(GenericContentAreaButton)`
+    &:hover {
+        background-color: #E3BAC6;
+    }
+`
 
 export default TodoElement

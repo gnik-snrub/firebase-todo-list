@@ -137,7 +137,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #4A0D67;
+    background-color: #FDE8E9;
 `
 
 export default App;

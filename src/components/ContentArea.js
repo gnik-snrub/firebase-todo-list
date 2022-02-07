@@ -1,4 +1,4 @@
-import GenericButton from "./GenericButton"
+import { GenericContentAreaButton } from "./GenericButton"
 import styled from "styled-components"
 import todo from "../lib/todo"
 import TodoElement from "./TodoElement"
@@ -41,11 +41,17 @@ const Content = styled.main`
     padding-top: 21px;
 `
 
-const AddTodoButton = styled(GenericButton)`
+const AddTodoButton = styled(GenericContentAreaButton)`
     margin-top: 10px;
     background-color: inherit;
     padding: 0px;
     border-radius: 10px;
+    transition: 0.4s;
+    &:hover, &:focus {
+        color: #23395B;
+        background-color: #E3BAC6;
+        width: 50px;
+    }
 `
 
 export default ContentArea

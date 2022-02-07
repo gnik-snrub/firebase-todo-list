@@ -5,8 +5,8 @@ body, html {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #4A0D67;
-  color: #9BF3F0;
+  background-color: #fde8e9;
+  color: #363D59;
 }
 ::-webkit-scrollbar {
     width: 0px;
