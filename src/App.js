@@ -1,9 +1,9 @@
-import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import Header from './components/Header'
-import Footer from './components/Footer'
-import ContentArea from './components/ContentArea'
+import Wrapper from './components/Wrapper'
+import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer'
+import ContentArea from './components/ContentArea/ContentArea'
 import todo from './lib/todo'
 
 import firebase from 'firebase/compat/app'
@@ -26,7 +26,7 @@ const auth = firebase.auth()
 const data = firebase.firestore()
 
 // Default string used to tutorialize the page. It goes from Base64 -> JSON -> converted to relevant JS objects.
-const defaultSaveData = 'W3sidGV4dCI6IlRoaXMgaXMgdGhlIGZpcnN0IG9uZSIsInByaW9yaXR5IjowLCJjb21wbGV0ZSI6ZmFsc2V9LHsidGV4dCI6IkFub3RoZXIgb25lLCBidXQgaXQncyBjb21wbGV0ZSIsInByaW9yaXR5IjowLCJjb21wbGV0ZSI6dHJ1ZX0seyJ0ZXh0IjoiUmVkIGFsZXJ0LiBUaGlzIHRvZG8gaXMgdXJnZW50LiIsInByaW9yaXR5IjoyLCJjb21wbGV0ZSI6ZmFsc2V9LHsidGV4dCI6Ik9yYW5nZSBpcyBhIG5pY2UgbWVkaXVtIiwicHJpb3JpdHkiOjEsImNvbXBsZXRlIjpmYWxzZX0seyJ0ZXh0IjoiUmVtb3ZlIHRoaXMgdG9kbyBieSBjbGlja2luZyB0aGUgWCEiLCJwcmlvcml0eSI6MCwiY29tcGxldGUiOmZhbHNlfSx7InRleHQiOiJJZiB5b3UnZCBsaWtlLCB5b3UgY2FuIGFkZCBhbm90aGVyIHRvZG8gd2l0aCB0aGUgJysnIiwicHJpb3JpdHkiOjAsImNvbXBsZXRlIjpmYWxzZX0seyJ0ZXh0IjoiRG9uJ3QgZm9yZ2V0IHRvIGhpdCB0aGUgJ1NhdmUnIGJ1dHRvbiBhYm92ZSEiLCJwcmlvcml0eSI6MCwiY29tcGxldGUiOmZhbHNlfV0='
+const defaultSaveData = 'W3sidGV4dCI6IlRoaXMgaXMgdGhlIGZpcnN0IG9uZSIsInByaW9yaXR5IjowLCJjb21wbGV0ZSI6ZmFsc2V9LHsidGV4dCI6IkFub3RoZXIgb25lLCBidXQgaXQncyBjb21wbGV0ZSIsInByaW9yaXR5IjowLCJjb21wbGV0ZSI6dHJ1ZX0seyJ0ZXh0IjoiUmVkIGFsZXJ0LiBUaGlzIHRvZG8gaXMgdXJnZW50LiIsInByaW9yaXR5IjoyLCJjb21wbGV0ZSI6ZmFsc2V9LHsidGV4dCI6Ik9yYW5nZSBpcyBhIG5pY2UgbWVkaXVtIiwicHJpb3JpdHkiOjEsImNvbXBsZXRlIjpmYWxzZX0seyJ0ZXh0IjoiUmVtb3ZlIHRoaXMgdG9kbyBieSBjbGlja2luZyB0aGUgWCEiLCJwcmlvcml0eSI6MCwiY29tcGxldGUiOmZhbHNlfSx7InRleHQiOiJJZiB5b3UnZCBsaWtlLCB5b3UgY2FuIGFkZCBhbm90aGVyIHRvZG8gd2l0aCB0aGUgJysnIiwicHJpb3JpdHkiOjAsImNvbXBsZXRlIjpmYWxzZX0seyJ0ZXh0IjoiRG9uJ3Qgd29ycnkhIFlvdXIgZGF0YSB3aWxsIHNhdmUgZXZlcnkgMTAgc2Vjb25kcy4iLCJwcmlvcml0eSI6MCwiY29tcGxldGUiOmZhbHNlfV0='
 
 function App() {
 	const [saveData, setSaveData] = useState([])
@@ -85,7 +85,9 @@ function App() {
     }
 
 	const addTodo = (newTodo) => {
-        setSaveData([...saveData, newTodo])
+        const updatedData = [...saveData, newTodo]
+        setSaveData(updatedData)
+        handleSave()
 	}
 
     const editTodo = (field, id, value = null) => {
@@ -101,43 +103,53 @@ function App() {
                 dataCopy[id].toggleComplete()
         }
         setSaveData(dataCopy)
+        handleSave()
     }
 
     const removeTodo = (id) => {
         let dataCopy = [ ...saveData ]
         dataCopy.splice(id, 1)
         setSaveData(dataCopy)
+        handleSave()
     }
 
-    const saveAll = async () => {
-        const extractedSaveData = saveData.map((todo) => {
-            return {
-                text: todo.getText(),
-                priority: todo.getPriority(),
-                complete: todo.getComplete()
-            }
-        })
-        const jsonSaveData = JSON.stringify(extractedSaveData)
-        const encodedJSON = btoa(jsonSaveData)
-        await data.collection('userData').doc(user.uid).set({saveData: encodedJSON}, {merge: true})
-    }
+    const handleSave = useCallback(() => {
+        const saveAll = async () => {
+            const extractedSaveData = saveData.map((todo) => {
+                return {
+                    text: todo.getText(),
+                    priority: todo.getPriority(),
+                    complete: todo.getComplete()
+                }
+            })
+            const jsonSaveData = JSON.stringify(extractedSaveData)
+            const encodedJSON = btoa(jsonSaveData)
+            await data.collection('userData').doc(user.uid).set({saveData: encodedJSON}, {merge: true})
+        }
+        saveAll()
+    }, [saveData, user])
+
+    const [title, setTitle] = useState('Todo-List')
+
+    useEffect(() => {
+        const saveInterval = setInterval(() => {
+            setTitle('Saving...')
+            handleSave()
+            setTimeout(() => {
+                setTitle('Todo-List')
+            }, 1500)
+        }, 10000)
+
+        return () => clearInterval(saveInterval)
+    }, [handleSave])
 
     return (
         <Wrapper>
-            <Header auth={user} signIn={logIn} signOut={() => {auth.signOut()}} saveAllData={saveAll} />
+            <Header auth={user} signIn={logIn} signOut={() => {auth.signOut()}} title={title} />
             <ContentArea saveData={saveData} addTodo={addTodo} edit={editTodo} remove={removeTodo} auth={user} />
             <Footer count={saveData.length} />
         </Wrapper>
     )
 }
-
-const Wrapper = styled.div`
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #FDE8E9;
-`
 
 export default App;

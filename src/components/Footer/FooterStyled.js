@@ -1,13 +1,4 @@
-import styled from 'styled-components'
-
-const Footer = (props) => {
-    const {count} = props
-    return (
-        <StyledFooter count={count}>
-            ↓
-        </StyledFooter>
-    )
-}
+import styled from "styled-components"
 
 const StyledFooter = styled.footer`
     width: 100vw;
@@ -21,4 +12,4 @@ const StyledFooter = styled.footer`
     box-shadow: 0px -10px 5px rgba(0, 0, 0, 0.3);
 `
 
-export default Footer
+export default StyledFooter

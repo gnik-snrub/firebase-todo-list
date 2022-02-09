@@ -1,7 +1,6 @@
-import { GenericContentAreaButton } from "./GenericButton"
-import styled from "styled-components"
-import todo from "../lib/todo"
-import TodoElement from "./TodoElement"
+import todo from "../../lib/todo"
+import TodoElement from "../TodoElement/TodoElement"
+import { AddTodoButton, Content } from "./ContentAreaStyled"
 
 const ContentArea = (props) => {
 	const {saveData, addTodo, edit, remove, auth} = props
@@ -32,26 +31,5 @@ const ContentArea = (props) => {
         </Content>
     )
 }
-
-const Content = styled.main`
-    width: 100%;
-    display: grid;
-    place-items: center;
-    padding-bottom: 54px;
-    padding-top: 21px;
-`
-
-const AddTodoButton = styled(GenericContentAreaButton)`
-    margin-top: 10px;
-    background-color: inherit;
-    padding: 0px;
-    border-radius: 10px;
-    transition: 0.4s;
-    &:hover, &:focus {
-        color: #23395B;
-        background-color: #E3BAC6;
-        width: 50px;
-    }
-`
 
 export default ContentArea
